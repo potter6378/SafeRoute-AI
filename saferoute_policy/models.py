@@ -7,7 +7,9 @@ models.py — 내부 데이터 모델 & enum 정의
 from __future__ import annotations
 from dataclasses import dataclass, field, asdict
 from enum import Enum
-from typing import Optional
+from typing import Literal, Optional
+
+from pydantic import BaseModel, Field, field_validator
 
 
 # ---------------------------------------------------------------------------
@@ -76,6 +78,27 @@ class State(str, Enum):
     APPROVED = "APPROVED"
     DENIED = "DENIED"
     HELD = "HELD"  # 명세서 8장 확장: 입력 무효로 사람 확인 대기
+
+
+class DetectionInput(BaseModel):
+    """HTTP 요청/탐지 이벤트를 검증하는 Pydantic 모델."""
+
+    log_id: str = Field(..., min_length=1)
+    timestamp: str
+    user_id: str = Field(..., min_length=1)
+    domain: str = Field(..., min_length=1)
+    detected_type: Literal["API_KEY", "CREDENTIAL", "PERSONAL_INFO", "INTERNAL_DOC", "SOURCE_CODE", "FINANCIAL", "ETC"]
+    count: int = Field(ge=0)
+    risk_level: Literal["Low", "Medium", "High", "Critical"]
+    classification_tag: Optional[Literal["PUBLIC", "INTERNAL", "CONFIDENTIAL"]] = None
+    raw_snippet: Optional[str] = None
+
+    @field_validator("timestamp")
+    @classmethod
+    def validate_timestamp(cls, value: str) -> str:
+        if not value:
+            raise ValueError("timestamp must not be empty")
+        return value
 
 
 # ---------------------------------------------------------------------------
