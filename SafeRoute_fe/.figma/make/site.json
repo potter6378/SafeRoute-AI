@@ -1,0 +1,10 @@
+{
+  "description": "Create clean and user-friendly wireframes using three files, designed primarily for Korean users with support for English, enhancing design efficiency.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
