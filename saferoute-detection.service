@@ -1,0 +1,39 @@
+# saferoute-detection.service
+#
+# 라즈베리파이에 이 파일을 /etc/systemd/system/ 에 복사하면
+# daemon.py가 "진짜 데몬"(운영체제가 관리하는 백그라운드 서비스)이 됩니다.
+#
+# 설치:
+#   sudo cp saferoute-detection.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable saferoute-detection   # 부팅 시 자동 시작
+#   sudo systemctl start saferoute-detection
+#
+# 확인:
+#   sudo systemctl status saferoute-detection
+#   sudo journalctl -u saferoute-detection -f   # 실시간 로그 보기
+#
+# 재시작/중지:
+#   sudo systemctl restart saferoute-detection
+#   sudo systemctl stop saferoute-detection
+
+[Unit]
+Description=SafeRoute Detection Daemon
+After=network.target
+
+[Service]
+Type=simple
+User=saferoute
+WorkingDirectory=/opt/saferoute/saferoute_detection
+ExecStart=/usr/bin/python3 /opt/saferoute/saferoute_detection/daemon.py
+
+# 죽으면 5초 후 자동 재시작 — 데몬의 핵심 조건 중 하나
+Restart=on-failure
+RestartSec=5
+
+# 로그를 journal(= journalctl로 보는 시스템 로그)로 통합
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
