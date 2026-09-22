@@ -4,27 +4,6 @@
 :root {
   --background: #ffffff;
   --foreground: #111827;
-  --card: #ffffff;
-  --card-foreground: #111827;
-  --primary: #1D4ED8;
-  --primary-foreground: #ffffff;
-  --secondary: #F3F4F6;
-  --secondary-foreground: #374151;
-  --muted: #F9FAFB;
-  --muted-foreground: #6B7280;
-  --accent: #DBEAFE;
-  --accent-foreground: #1D4ED8;
-  --border: #E5E7EB;
-  --ring: #93C5FD;
-  --radius: 6px;
-
-  /* semantic colors */
-  --critical: #D32F2F;
-  --high: #F57C00;
-  --medium: #FBC02D;
-  --low: #388E3C;
-  --hold: #7B1FA2;
-  --success: #388E3C;
 }
 
 * {
@@ -51,8 +30,4 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #D1D5DB;
   border-radius: 2px;
-}
-
-.mono {
-  font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
